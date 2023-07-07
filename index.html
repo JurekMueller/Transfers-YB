@@ -3,9 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>YB-Transfers</title>
+    <link href="CSS/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <style>
+        svg {
+            width: 90%;
+            height: 800px;
+            background-color: white;
+        }
+        #map { 
+            width: 90%;
+            height: 800px; 
+        }
+
+        .titleBanner {
+            padding-top: 2rem;
+            /* background-color: #4fbdf2; */
+            /* border-radius: 1.5rem; */
+        }
+
+        .impressum {
+          /* margin-top: 2rem; */
+          background-color: 	#9b111a;
+          height: 15em;
+          text-align: center;
+        }
+
+        .impressum a {
+            color: rgb(240, 240, 240)
+        }
+
+        .my_rounded{
+            border-radius: 1.6em;
+            /* box-shadow: 0 5px 10px rgba(0,0,0,.2); */
+        }
+        .text-justify{
+          text-align: justify;
+        }
+        .pMarg{
+          margin-bottom: 0.9em;
+        }
+        a {
+          text-decoration: none;
+          font-weight: bold;
+        }
+        body{
+          background-color: rgb(240, 240, 240);
+        }
+        .loader {
+          position: fixed;
+          width: 100%;
+          height: 100%;
+          z-index: 20000;
+          top: 40%;
+          left: 0px;
+          opacity: 0.5;
+          filter: alpha(opacity=50);
+          visibility: hidden;
+        }
+        .overlay{
+          top: 0%;
+          position: fixed;
+          width: 100%;
+          height: 100%;
+          z-index: 10000;
+          background: rgba(0,0,0,0.5);
+          visibility: hidden;
+      }
+      button.accordion-button::after {
+        position: absolute;
+        z-index: 100;
+        right: 16px;
+      }
+    </style>
 </head>
 <body>
-    
+
+    <!-- This is the loading screen -->
+    <div class="overlay"></div>
+    <div class="loader">
+      <div class="d-flex justify-content-center">  
+        <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem; z-index: 20;"></div>
+    </div>
+    </div>
+    <!-- This is the header -->
+    <div class="container-fluid" id="header-container">  
+      <div class="row justify-content-end mt-1"> 
+        <div class="col-1 text-right">
+          <button type="button" class="btn btn-link" id="langSelectDe">de</button> | <button type="button" class="btn btn-link" id="langSelectFr">fr</button>
+        </div>
+      </div>
+    </div>
+
+     
+    <!-- Title -->
+    <div class="container-fluid mb-5">
+        <div class="row"> <!-- justify-content ist für horizontal und align-items für vertikal-->
+            <div class="col text-center mb-3 titleBanner">
+                <h3 class="display-3" id="headTitle">YB-Transfers</h3>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col" style="height: 5em; background-color: #9b111a;"></div>
+        </div>
+    </div>
+
+    <!-- This is the visualisation -->
+    <section class="mb-5" id="transferViz">
+        <div class="container-lg" id="viz-container">   
+            <div class="row justify-content-center mt-5"> 
+                <div class="col-11 text-center">
+                <h5 class="display-4" id="headViz"></h5>
+                </div>
+            </div>  
+            <!-- <div class="row justify-content-center" id="viz-row">     
+                <div class="col-10 text-end mt-5 mb-2", style="margin-left:-9%; z-index: 1;" id="viz-div">
+                    <svg class="shadow my_rounded border border-2" id="viz-svg"></svg>
+                </div>
+                </div>
+            </div> -->
+            <div class="row justify-content-center" id="map-row">     
+                <div class="col-10 text-end mt-5 mb-2", style="margin-left:-9%; z-index: 1;" id="map-div">
+                    <div class="shadow my_rounded border border-2" id="map"></d>
+                </div>
+                </div>
+            </div>
+        </section>
+      
+    <script src="JS/d3.v7.js"></script>
+    <script src="JS/d3-legend.js"></script>
+    <script src="JS/jquery-3.6.0.js"></script>
+    <script src="JS/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="JS/transferviz.js"></script>
 </body>
 </html>
