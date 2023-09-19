@@ -16,9 +16,9 @@ let selectedView;
 
 // Load the Data from multiple files
 Promise.all([
-    d3.json('../Data/transfers.json'),
-    d3.json('../Data/clubs.geojson'),
-    d3.json('../Data/seasons.json')
+    d3.json('Data/transfers.json'),
+    d3.json('Data/clubs.geojson'),
+    d3.json('Data/seasons.json')
 ]).then(function([tData, cData, sData]) {
     playerData = tData;
     clubData = cData;
