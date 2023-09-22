@@ -1,0 +1,73 @@
+/* svg {
+    width: 90%;
+    height: 800px;
+    background-color: white;
+} */
+#map { 
+    width: 100%;
+    height: 800px; 
+}
+
+.titleBanner {
+    padding-top: 2rem;
+    /* background-color: #4fbdf2; */
+    /* border-radius: 1.5rem; */
+}
+
+.impressum {
+    /* margin-top: 2rem; */
+    background-color: 	#9b111a;
+    height: 15em;
+    text-align: center;
+}
+
+.impressum a {
+    color: rgb(240, 240, 240)
+}
+
+.my_rounded{
+    border-radius: 1.6em;
+    /* box-shadow: 0 5px 10px rgba(0,0,0,.2); */
+}
+.text-justify{
+    text-align: justify;
+}
+.pMarg{
+    margin-bottom: 0.9em;
+}
+a {
+    text-decoration: none;
+    font-weight: bold;
+}
+body{
+    background-color: rgb(240, 240, 240);
+}
+.loader {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 20000;
+    top: 40%;
+    left: 0px;
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+    visibility: hidden;
+}
+.overlay{
+    top: 0%;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    background: rgba(0,0,0,0.5);
+    visibility: hidden;
+}
+button.accordion-button::after {
+    position: absolute;
+    z-index: 100;
+    right: 16px;
+}
+.btn:focus {
+    outline: none;
+    box-shadow: none;
+}

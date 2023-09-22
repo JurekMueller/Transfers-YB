@@ -1,4 +1,4 @@
-var map = L.map('map').setView([50.85, 12.50], 4);
+var map = L.map('map').setView([50.85, 12.50], 5);
 
 // Add OpenStreetMap tiles to the map
 L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
@@ -13,6 +13,36 @@ let seasonsData;
 let markerGroup = L.featureGroup().addTo(map);
 let selectedSeason;
 let selectedView;
+
+
+// DOM Creation View Select Buttons
+let btnJoined = d3.select('#btnJoined');
+let btnLeft = d3.select('#btnLeft');
+
+btnJoined.on('click', function() {
+    selectedView = "joined";
+    styleViewButton(selectedView);
+    updateMap(selectedSeason, selectedView);
+});
+
+btnLeft.on('click', function() {
+    selectedView = "left";
+    styleViewButton(selectedView);
+    updateMap(selectedSeason, selectedView);
+});
+
+function styleViewButton(view) {
+    if (view === "joined") {
+        btnLeft.attr("class", "btn btn-secondary");
+        btnJoined.attr("class", "btn btn-primary");
+    } else if (view === "left") {
+        btnLeft.attr("class", "btn btn-primary");
+        btnJoined.attr("class", "btn btn-secondary");
+    } else {
+        btnLeft.attr("class", "btn btn-secondary");
+        btnJoined.attr("class", "btn btn-secondary");
+    }
+}
 
 // Load the Data from multiple files
 Promise.all([
@@ -167,6 +197,7 @@ function createTransferArrow(fromCoords, toCoords, player) {
         .on('click', function() {
             // Handle click event here
             selectedView = player.player_name;
+            styleViewButton(selectedView);
             updateMap(selectedSeason, selectedView);
         });
 }
