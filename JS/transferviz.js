@@ -106,14 +106,10 @@ function updateMap(selectedSeason, selectedView) {
             createIconMarker(clubFeature, clubFeature.geometry.coordinates);
         }
     });
-
+    // Number of transfers
+    let transferListLength = transferList.length;
     // Create arrows with player details
-    for (let transfer of transferList) {
-        const clubFeatureTo = clubData.features.find(feature => feature.properties.id === transfer.transferDetail.team_joined_TM_id);
-        const clubFeatureFrom = clubData.features.find(feature => feature.properties.id === transfer.transferDetail.team_left_TM_id);
-        createTransferArrow(clubFeatureFrom.geometry.coordinates, clubFeatureTo.geometry.coordinates, transfer.player);
-    }
-
+    transferList.forEach((transfer, index) => {createTransferArrow(transfer, transferListLength, index)});
 }
 
 // Define a function to create a custom icon marker for a club
@@ -151,29 +147,67 @@ function createIconMarker(feature, latlng) {
 }
 
 // // This function creates an arrow (line) between two sets of coordinates
-function createTransferArrow(fromCoords, toCoords, player) {
+function createTransferArrow(transfer, transferListLength, index) {
+    // Define coordinates
+    const clubFeatureTo = clubData.features.find(feature => feature.properties.id === transfer.transferDetail.team_joined_TM_id);
+    const clubFeatureFrom = clubData.features.find(feature => feature.properties.id === transfer.transferDetail.team_left_TM_id);
+    
+    // Colors for arrow body between light grey and black
+    let arrowColor = (selectedView === "left" || selectedView === "joined") 
+    ? '#000000' 
+    : d3.scaleLinear()
+        .domain([0, transferListLength])
+        .range(['#000000', '#d9d9d9'])(index); 
+
     // Define the path options (color, weight etc.) based on your requirements
     let pathOptions = {
-        color: 'black',
-        weight: 2,
+        color: arrowColor,
+        weight: 3,
         stoke: true
         // ... add any other styling options here
     };
-
-    let arrow = L.polyline([fromCoords, toCoords], pathOptions);
+    let arrow = L.polyline([clubFeatureFrom.geometry.coordinates, clubFeatureTo.geometry.coordinates], pathOptions);
     markerGroup.addLayer(arrow);
+    
+    // Colors for arrow head between light green and green
+    let arrowHeadColorLoan = (selectedView === "left" || selectedView === "joined")
+    ? '#006d2c'
+    : d3.scaleLinear()
+        .domain([0, transferListLength])
+        .range(['#006d2c', '#c7e9c0'])(index);
+    // Colors for arrow head between light read and red
+    let arrowHeadColorEndLoan = (selectedView === "left" || selectedView === "joined")
+    ? '#a63603'
+    : d3.scaleLinear()
+        .domain([0, transferListLength])
+        .range(['#a63603', '#fee6ce'])(index);
+
+    
+    const fee = transfer.transferDetail.transfer_fee;
+    let arrowHeadColor = (fee === "Leihe") ? arrowHeadColorLoan : (fee === "Leih-Ende") ? arrowHeadColorEndLoan : arrowColor;
+    // Size of arrow head
+    let pixelSize = (selectedView === "left" || selectedView === "joined") ? 15 : 15 - 10*index/transferListLength;
+    // Plot arrow head
+    let arrowHeadOptions = {
+        color: arrowHeadColor,
+        weight: 3,
+        stoke: true
+    };
     let arrowHead = L.polylineDecorator(arrow, {
         patterns: [{
             offset: '25%', // Place arrow at the end of the line
             repeat: '50%',
-            symbol: L.Symbol.arrowHead({pixelSize: 10, polygon: false, pathOptions: pathOptions})
+            symbol: L.Symbol.arrowHead({pixelSize: pixelSize, polygon: false, pathOptions: arrowHeadOptions})
         }]
     });
     markerGroup.addLayer(arrowHead);
     
     // Calculate midpoint coordinates
-    let midPoint = getMidPoint(fromCoords, toCoords);
+    let midPoint = getMidPoint(clubFeatureFrom.geometry.coordinates, clubFeatureTo.geometry.coordinates);
 
+    // Define player
+    const player = transfer.player;
+    
     // Create a custom icon using the player's image link
     iconSize=[32,32]
     let playerIcon = L.icon({
