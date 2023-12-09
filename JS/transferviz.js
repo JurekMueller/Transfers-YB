@@ -184,7 +184,7 @@ function createTransferArrow(transfer, transferListLength, index) {
 
     
     const fee = transfer.transferDetail.transfer_fee;
-    let arrowHeadColor = (fee === "Leihe") ? arrowHeadColorLoan : (fee === "Leih-Ende") ? arrowHeadColorEndLoan : arrowColor;
+    let arrowHeadColor = (fee === "Leihe" || fee.includes("Leihgebühr") ) ? arrowHeadColorLoan : (fee === "Leih-Ende") ? arrowHeadColorEndLoan : arrowColor;
     // Size of arrow head
     let pixelSize = (selectedView === "left" || selectedView === "joined") ? 15 : 15 - 10*index/transferListLength;
     // Plot arrow head
@@ -209,13 +209,12 @@ function createTransferArrow(transfer, transferListLength, index) {
     const player = transfer.player;
     
     // Create a custom icon using the player's image link
-    iconSize=[32,32]
-    let playerIcon = L.icon({
-        iconUrl: player.player_image_link,
-        iconSize: iconSize,
-        iconAnchor: [iconSize[0] / 2, iconSize[1] / 2]
+    borderColor = 'green'
+    let playerIcon = L.divIcon({
+        html: `<div class="circular-icon-wrapper" style="background-image: url('${player.player_image_link}'); border-color: ${arrowColor};"></div>`,
+        iconSize: [32, 32],
+        className: ''
     });
-
     // Place the marker at the midpoint with the custom icon
     let playerMarker = L.marker(midPoint, { icon: playerIcon })
         .addTo(markerGroup)

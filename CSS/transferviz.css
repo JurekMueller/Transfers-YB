@@ -71,3 +71,17 @@ button.accordion-button::after {
     outline: none;
     box-shadow: none;
 }
+.circular-icon-wrapper {
+    border-radius: 50%;
+    overflow: hidden;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2.5px solid transparent; /* Initial border color */
+    background-size: cover;
+    background-position: center;
+    background-color: white; /* Set default background color */
+}
+
